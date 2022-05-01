@@ -33,6 +33,7 @@ namespace sudokoAlgorithm
                 new int[] {4,1, 3,2},
                 new int[] {2,3, 1,4}
             };
+
             int[][] goodSudoku3 =  {
                       new int[] {1,9,9,9, 16,9,9,9, 1,16,1,1, 1,1,1,1},
                       new int[] {9,16,9,9, 16,9,9,9, 9,9,9,9, 5,2,16,9},

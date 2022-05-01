@@ -53,7 +53,7 @@ namespace sudokoAlgorithm
 
                       new int[] {1,11,3,4, 5,6,16,8, 1,1,16,1, 16,1,1,1},
                       new int[] {16,11,3,4, 5,6,7,8, 1,1,1,1, 16,1,1,1},
-                      new int[] {1,16,3, 4,16,6,7, 8,16,1,1, 1,1,16,1,1},
+                      new int[] {1,16,3,4, 16,6,7,8, 16,1,1,1, 1,16,1,1},
                       new int[] {1,0,3,4, 5,6,7,8, 1,1,1,1, 1,1,16,1},
                         };
 
@@ -93,59 +93,76 @@ namespace sudokoAlgorithm
 
         static bool validateSoduko3(int[][] puzzle)
         {
-
+            //check if puzzle root is integer
             int N = puzzle.Length;
             double sqrtN = Math.Sqrt(N);
             if (N > 0 && sqrtN % 1 > 0)
             {
                 return false;
             }
+
+            //lists to store valid columns , rows and boxes
             List<int?> validcolumns = new List<int?>();
             List<int?> validrows = new List<int?>();
             List<int[]> validBoxes = new List<int[]>();
-            int ni = 0;
+
+
+            //ni is increment number of boxes to use in some conditions
+            // lastboxesInrow is to store latest check box position to avoid dublicating boxes
+            // boxPercent is to check space ratio that box takes from row
+            int ni = 0;        
             int lastboxesInrow =-1;
             double boxPercent = 100 / sqrtN;
+
+            // start iterate over puzzle
+
             for (int i = 0; i < puzzle.Length; i++)
             {
-                int puzzleRowN = puzzle[i].Length;
-                double rowsqrtN = Math.Sqrt(puzzleRowN);
 
-                if (N > 0 && rowsqrtN % 1 > 0)
+                // check if rows length root is integer (same of puzzle length)
+                int puzzleRowN = puzzle[i].Length;
+                if (puzzleRowN != N)
                 {
                     return false;
                 }
+
+                //check if row contains N number
                 if(!puzzle[i].Contains(N))
                 {
                     return false;
                 }
-                if (!validrows.Contains(i))
-                {
-                    validrows.Add(i);
-                }
+
+                //iterate over row to check columns cells
+
                 for (int j = 0; j < puzzle[i].Length; j++)
                 {
+                    //check if column val equals N
+
                     if (puzzle[i][j] == N   )
                     {
+                        //get the space ratio this column in to check which box it belongs to
                         double curCOlPerc = Math.Round((double)j / N * 100, 3);
 
+                        // conditions to avoid dublications  ni for boxes increment sqrtn for square root of N , i for row position
+                        // j for column position in row ,curCOlPerc for column space ratio ,boxPercent for one box space ratio ,and lastboxesinrow for latest checked box
                         if (((ni  <= i ||  ( ni%sqrtN !=0 && j <= (ni % sqrtN) * sqrtN)) && (int)(Math.Floor(curCOlPerc / (double)boxPercent)) != lastboxesInrow) 
                               )
                         {
 
                             ni++;
                             lastboxesInrow = (int)(Math.Floor(curCOlPerc / (double)boxPercent));
+
+                            // set latest checked valid box and  ratio of i to N root to avoid dublication in adding to list
+
                             int[] plot = new int[] {  i/ (int)sqrtN, lastboxesInrow };
+
+                            //condition to find if plot is added 
                             if (!validBoxes.Contains(plot)) { 
+                                // adding valid plot
                                 validBoxes.Add(plot);
                             }
                         }
 
-
-                        if (!validcolumns.Contains(j))
-                        {
-                            validcolumns.Add(j);
-                        }
 
 
                     }
@@ -156,9 +173,9 @@ namespace sudokoAlgorithm
 
             }
 
-            validcolumns = validcolumns.Where(c => c != null).ToList();
-            validrows = validrows.Where(r => r != null).ToList();
-            if (validcolumns.Count != N || validrows.Count != N || validBoxes.Count != N)
+
+            //get not null columns and rows and check if any of lists count less not same of N
+            if (validBoxes.Count != N)
             {
                 return false;
             }
