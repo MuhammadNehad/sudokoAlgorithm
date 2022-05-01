@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sudokoAlgorithm", "sudokoAlgorithm.csproj", "{3469F43F-0119-4919-8C92-94CDA830DE07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3469F43F-0119-4919-8C92-94CDA830DE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3469F43F-0119-4919-8C92-94CDA830DE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3469F43F-0119-4919-8C92-94CDA830DE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3469F43F-0119-4919-8C92-94CDA830DE07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1FFBF8F6-F16B-438D-BD1D-36FB07D077AC}
+	EndGlobalSection
+EndGlobal
