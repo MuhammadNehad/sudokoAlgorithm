@@ -101,9 +101,8 @@ namespace sudokoAlgorithm
                 return false;
             }
 
-            //lists to store valid columns , rows and boxes
+            //lists to store valid columns  and boxes
             List<int?> validcolumns = new List<int?>();
-            List<int?> validrows = new List<int?>();
             List<int[]> validBoxes = new List<int[]>();
 
 
@@ -164,6 +163,11 @@ namespace sudokoAlgorithm
                         }
 
 
+                        if (!validcolumns.Contains(j))
+                        {
+                            validcolumns.Add(j);
+                        }
+
 
                     }
         
@@ -174,8 +178,10 @@ namespace sudokoAlgorithm
             }
 
 
-            //get not null columns and rows and check if any of lists count less not same of N
-            if (validBoxes.Count != N)
+            //get not null columns and check if any of lists count less not same of N
+            validcolumns = validcolumns.Where(c => c != null).ToList();
+
+            if (validcolumns.Count != N || validBoxes.Count != N)
             {
                 return false;
             }
