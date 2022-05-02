@@ -121,7 +121,7 @@ namespace sudokoAlgorithm
                                   col = c,
                                   j = j ++
                               } into cs
-                              where cs.col == N //check if column cell equals N
+                              where cs.col == N && j<=N //check if column cell equals N
                               select boxes(ref ni, j - 1, i - 1, (int)sqrtN, N, boxPercent, ref lastboxesInrow,ref lastPlot,ref validBoxes) // add valid box to boxes list
                                      into vb
                               where vb != null // check if box is null not to select it
