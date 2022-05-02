@@ -143,7 +143,7 @@ namespace sudokoAlgorithm
                         int currentPlot = (int)Math.Floor(((double)i / (double)sqrtN)+1)-1;
                         // conditions to avoid dublications  ni for boxes increment sqrtn for square root of N , i for row position
                         // j for column position in row ,curCOlPerc for column space ratio ,boxPercent for one box space ratio ,and lastboxesinrow for latest checked box
-                          if (((ni  <= i ||  ( ni%sqrtN !=0 && j <= (ni % sqrtN) * sqrtN)) && (CurrentBox != lastboxesInrow|| latestPlot != currentPlot)) 
+                          if (((ni  <= i ||  ( ni%sqrtN !=0)) && (CurrentBox != lastboxesInrow|| latestPlot != currentPlot)) 
                               )
                         {
 
