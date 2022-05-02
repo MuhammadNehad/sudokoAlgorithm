@@ -36,25 +36,25 @@ namespace sudokoAlgorithm
 
 
             int[][] goodSudoku3 =  {
-                      new int[] {1,9,9,9, 16,9,9,9, 1,16,1,1, 1,1,1,1},
-                      new int[] {9,16,9,9, 16,9,9,9, 9,9,9,9, 5,2,16,9},
-                      new int[] {9,9,9,9, 9,9,16,9, 9,9,9,16 ,4,11,16,9},
-                      new int[] {9,9,16,9, 9,9,16,9, 9,9,9,16 ,6,4,9,9},
+                      new int[] {1,16,9,16, 16,16,9,16, 1,16,16,1, 1,16,1,1},
+                      new int[] {9,16,16,9, 16,16,9,16, 9,16,9,16, 5,16,16,9},
+                      new int[] {9,16,9,16, 9,16,16,16, 9,16,9,16 ,16,11,16,9},
+                      new int[] {9,16,16,16, 9,16,16,16, 9,16,9,16 ,16,4,16,9},
 
-                      new int[] {1,16,1,1, 1,16,1,1, 1,1,1,1, 1,1,1,1},
-                      new int[] {1,16,1,1, 9,1,1,9, 1,1,1,1, 1,1,1,1},
-                      new int[] {1,1,1,1, 1,9,1,1, 1,1,16,1, 1,1,1,1},
-                      new int[] {1,3,2,4, 3,16,7,8, 1,16,1,1, 16,1,1,1},
+                      new int[] {1,16,16,1, 1,16,16,1, 1,16,1,16, 1,16,1,1},
+                      new int[] {1,16,16,1, 9,16,1,16, 1,16,1,16, 1,16,1,1},
+                      new int[] {1,16,1,16, 1,16,1,16, 1,16,16,16, 1,16,1,1},
+                      new int[] {1,16,2,16, 3,16,16,8, 1,16,16,1, 16,16,1,1},
 
-                      new int[] {1,9,3,4, 9,6,7,8, 1,1,1,1,   1,16,1,19},
-                      new int[] {1,11,3,4, 16,6,7,8, 1,1,16,1, 1,16,1,1},
-                      new int[] {1,16,3,16, 5,6,7,16, 16,1,1,1, 1,16,1,1},
-                      new int[] {1,11,3,4, 5,6,7,8, 1,1,1,1, 1,1,1,16},
+                      new int[] {1,16,3,16, 9,16,7,16, 1,16,1,16,   1,16,16,19},
+                      new int[] {1,11,16,4, 16,16,7,16, 1,16,16,16, 1,16,16,1},
+                      new int[] {1,16,16,16, 5,16,7,16, 16,16,1,16, 1,16,16,1},
+                      new int[] {1,11,16,4, 5,16,7,16, 1,16,1,16, 1,16,1,16},
 
-                      new int[] {1,11,3,4, 5,6,16,8, 1,1,16,1, 16,1,1,1},
-                      new int[] {16,11,3,4, 5,6,7,8, 1,1,1,1, 16,1,1,1},
-                      new int[] {1,16,3,4, 16,6,7,8, 16,1,1,1, 1,16,1,1},
-                      new int[] {1,0,3,4, 5,6,7,8, 1,1,1,1, 1,1,16,1},
+                      new int[] {1,11,16,4, 5,16,16,16, 1,16,16,16, 16,16,1,1},
+                      new int[] {16,11,16,4, 5,16,7,16, 1,16,1,16, 16,16,1,1},
+                      new int[] {1,16,16,4, 16,16,7,16, 16,16,1,16, 1,16,16,1},
+                      new int[] {1,16,3,16, 5,16,7,16, 1,16,1,16, 1,16,16,1},
                         };
 
 
@@ -63,10 +63,10 @@ namespace sudokoAlgorithm
                 new int[] {9,9,9, 9,9,9, 9,9,9},
                 new int[] {9,9,9, 9,9,9, 9,9,9},
                 new int[] {1,1,1, 1,1,1, 1,1,9},
-                new int[] {1,9,1, 1,9,1, 1,9,1},
+                new int[] {1,1,1, 1,9,1, 1,9,1},
                 new int[] {1,1,1, 1,1,9, 1,1,1},
                 new int[] {1,3,2, 4,3,6, 7,8,9},
-                new int[] {1,6,3, 4,3,6, 7,8,79},
+                new int[] {1,9,3, 4,9,6, 7,8,79},
                 new int[] {1,0,3, 4,5,6, 7,8,9}
             };
 
@@ -102,10 +102,11 @@ namespace sudokoAlgorithm
             }
 
             //lists to store valid columns , rows and boxes
-
+            List<int[]> validBoxes = new List<int[]>();
             //ni is increment number of boxes to use in some conditions
             // lastboxesInrow is to store latest check box position to avoid dublicating boxes
             // boxPercent is to check space ratio that box takes from row
+            // Plot is a row of boxes
             int ni = 0;        
             int lastboxesInrow =-1;
             double boxPercent = 100 / sqrtN;
@@ -146,9 +147,15 @@ namespace sudokoAlgorithm
                               )
                         {
 
-                            ni++;
                             lastboxesInrow = CurrentBox;
                             latestPlot = currentPlot;
+                            int[] plot = new int[] { latestPlot, lastboxesInrow };
+                            int indexOfPlot = validBoxes.Count(splot=>splot[0]==plot[0]&& splot[1]==plot[1]);
+                            if (indexOfPlot==0)
+                            {
+                                validBoxes.Add(plot);
+                                 ni++;
+                            }
                         }
 
 
@@ -163,7 +170,7 @@ namespace sudokoAlgorithm
 
 
             //get not null columns and rows and check if any of lists count less not same of N
-            if (ni != N)
+            if (validBoxes.Count != N)
             {
                 return false;
             }
