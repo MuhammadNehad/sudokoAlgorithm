@@ -86,6 +86,7 @@ namespace sudokoAlgorithm
 
         static bool SodukoLinq(int[][] puzzle)
         {
+            //check if puzzle root is integer
             int N = puzzle.Length;
             double sqrtN = Math.Sqrt(N);
             if (N > 0 && sqrtN % 1 > 0)
@@ -93,32 +94,39 @@ namespace sudokoAlgorithm
                 return false;
             }
 
-            List<int[]> validBoxes = new List<int[]>();
+
+            //lists to store valid columns 
+            List<int[]> validColumns = new List<int[]>();
+
+            //ni is increment number of boxes to use in some conditions
+            // lastboxesInrow is to store latest check box position to avoid dublicating boxes
+            // boxPercent is to check space ratio that box takes from row
             int ni = 0;
             int lastboxesInrow = -1;
             int j = 0;
             int i = 0;
             double boxPercent = 100 / sqrtN;
-            var validboxes = (from r in puzzle
-                              where N > 0 && Math.Sqrt(r.Length) % 1 == 0 && r.Contains(N)
-                              select new
+            var validboxes = (from r in puzzle // start iterate over puzzle  r for row in puzzle
+                              where  r.Length  == N && r.Contains(N) // check if rows length root is integer (same of puzzle length) and if it contains N if true continue
+                              select new  // select row and some related data to use like row index and update column index to 0
                               {
                                   row = r,
                                   i = i++,
                                   j = 0
                               } into newval
-                              where newval.row != null
-                              from c in newval.row
-                              select new
+                              where newval.row != null //check if row  isn't null
+                              from c in newval.row //iterate over row to check columns cells
+                              select new //select column and its index in row
                               {
                                   col = c,
                                   j = j++
                               } into cs
-                              where cs.col == N
-                              select boxes(ref ni, j - 1, i - 1, (int)sqrtN, N, boxPercent, ref lastboxesInrow)
+                              where cs.col == N //check if column cell equals N
+                              select boxes(ref ni, j - 1, i - 1, (int)sqrtN, N, boxPercent, ref lastboxesInrow) // add valid box to boxes list
                                      into vb
-                              where vb != null
+                              where vb != null // check if box is null not to select it
                               select vb).ToList();
+            // check if boxes list count less not same of N
             if (validboxes.Count != N)
             {
                 return false;
@@ -128,6 +136,9 @@ namespace sudokoAlgorithm
 
         private static int[] boxes(ref int ni, int j, int i, int sqrtN, int N, double boxPercent, ref int lastboxesInrow)
         {
+
+            // conditions to avoid dublications  ni for boxes increment sqrtn for square root of N , i for row position
+            // j for column position in row ,curCOlPerc for column space ratio ,boxPercent for one box space ratio ,and lastboxesinrow for latest checked box
             double curColPerc = Math.Round((double)j / N * 100, 3);
             int[] plot = null;
             if (
@@ -138,9 +149,10 @@ namespace sudokoAlgorithm
 
                 ni++;
                 lastboxesInrow = (int)(Math.Floor(curColPerc / (double)boxPercent));
+                // set latest checked valid box and  ratio of i to N root to avoid dublication in adding to list
                 plot = new int[] { i / (int)sqrtN, lastboxesInrow };
             }
-
+            //returns null if condition is false
             return plot;
         }
 

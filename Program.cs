@@ -101,10 +101,7 @@ namespace sudokoAlgorithm
                 return false;
             }
 
-            //lists to store valid columns  and boxes
-            List<int?> validcolumns = new List<int?>();
-            List<int[]> validBoxes = new List<int[]>();
-
+            //lists to store valid columns , rows and boxes
 
             //ni is increment number of boxes to use in some conditions
             // lastboxesInrow is to store latest check box position to avoid dublicating boxes
@@ -112,7 +109,7 @@ namespace sudokoAlgorithm
             int ni = 0;        
             int lastboxesInrow =-1;
             double boxPercent = 100 / sqrtN;
-
+            int latestPlot = 0;
             // start iterate over puzzle
 
             for (int i = 0; i < puzzle.Length; i++)
@@ -140,33 +137,20 @@ namespace sudokoAlgorithm
                     if (puzzle[i][j] == N   )
                     {
                         //get the space ratio this column in to check which box it belongs to
-                        double curCOlPerc = Math.Round((double)j / N * 100, 3);
-
+                        double curCOlPerc = Math.Round((double)100 * j / N  , 3);
+                        int CurrentBox =   (int)(0.05f+ (curCOlPerc / boxPercent));
+                        int currentPlot = (int)Math.Floor(((double)i / (double)sqrtN)+1)-1;
                         // conditions to avoid dublications  ni for boxes increment sqrtn for square root of N , i for row position
                         // j for column position in row ,curCOlPerc for column space ratio ,boxPercent for one box space ratio ,and lastboxesinrow for latest checked box
-                        if (((ni  <= i ||  ( ni%sqrtN !=0 && j <= (ni % sqrtN) * sqrtN)) && (int)(Math.Floor(curCOlPerc / (double)boxPercent)) != lastboxesInrow) 
+                          if (((ni  <= i ||  ( ni%sqrtN !=0 && j <= (ni % sqrtN) * sqrtN)) && (CurrentBox != lastboxesInrow|| latestPlot != currentPlot)) 
                               )
                         {
 
                             ni++;
-                            lastboxesInrow = (int)(Math.Floor(curCOlPerc / (double)boxPercent));
-
-                            // set latest checked valid box and  ratio of i to N root to avoid dublication in adding to list
-
-                            int[] plot = new int[] {  i/ (int)sqrtN, lastboxesInrow };
-
-                            //condition to find if plot is added 
-                            if (!validBoxes.Contains(plot)) { 
-                                // adding valid plot
-                                validBoxes.Add(plot);
-                            }
+                            lastboxesInrow = CurrentBox;
+                            latestPlot = currentPlot;
                         }
 
-
-                        if (!validcolumns.Contains(j))
-                        {
-                            validcolumns.Add(j);
-                        }
 
 
                     }
@@ -178,10 +162,8 @@ namespace sudokoAlgorithm
             }
 
 
-            //get not null columns and check if any of lists count less not same of N
-            validcolumns = validcolumns.Where(c => c != null).ToList();
-
-            if (validcolumns.Count != N || validBoxes.Count != N)
+            //get not null columns and rows and check if any of lists count less not same of N
+            if (ni != N)
             {
                 return false;
             }
