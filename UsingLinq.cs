@@ -137,7 +137,7 @@ namespace sudokoAlgorithm
         private static bool checkRow(int[] row,ref int j,int i, int N)
         {
             j = 0;
-            return row.Length == N && row.Contains(N) && i<= N;
+            return row.Length == N && row.Contains(N) && !row.Contains(0) && i<= N;
         }
         private static int[] boxes(ref int ni, int j, int i, int sqrtN, int N, double boxPercent, ref int lastboxesInrow, ref int lastPlot,ref List<int[]> validBoxes)
         {

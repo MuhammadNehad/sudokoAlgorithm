@@ -63,11 +63,11 @@ namespace sudokoAlgorithm
                 new int[] {9,9,9, 9,9,9, 9,9,9},
                 new int[] {9,9,9, 9,9,9, 9,9,9},
                 new int[] {1,1,1, 1,1,1, 1,1,9},
-                new int[] {1,1,1, 1,9,1, 1,9,1},
+                new int[] {1,9,1, 1,9,1, 1,9,1},
                 new int[] {1,1,1, 1,1,9, 1,1,1},
                 new int[] {1,3,2, 4,3,6, 7,8,9},
-                new int[] {1,9,3, 4,9,6, 7,8,79},
-                new int[] {1,0,3, 4,5,6, 7,8,9}
+                new int[] {1,3,3, 4,9,6, 7,8,79},
+                new int[] {1,1,3, 4,5,6, 7,8,9}
             };
 
             int[][] badSudoku2 = {
@@ -124,7 +124,7 @@ namespace sudokoAlgorithm
                 }
 
                 //check if row contains N number
-                if(!puzzle[i].Contains(N))
+                if(!puzzle[i].Contains(N) || puzzle[i].Contains(0))
                 {
                     return false;
                 }
